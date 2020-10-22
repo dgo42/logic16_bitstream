@@ -54,6 +54,7 @@ wire [15:0] channel_enable_ncd, channel_enable_fcd;
 
 // fast clock domain -> normal clock domain
 wire acq_stalled_fcd, acq_stalled_ncd;
+wire divided_clock;
 
 synchronizer clklock_sync (.clk(normalclk), .in(clklock), .out(clklock_ncd));
 
@@ -87,6 +88,7 @@ fast_clock_domain fcd(.clk(fastclk), .rst(fcd_rst), .probe(PROBE),
 		      .acq_enable(acq_enable_fcd),
 		      .clock_divisor(clkdiv_fcd),
 		      .channel_enable(channel_enable_fcd),
+              .divided_clock(divided_clock),
 		      .stalled(acq_stalled_fcd));
 
 assign fcd_rst = acq_reset_fcd;

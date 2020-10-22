@@ -36,17 +36,17 @@ module clock_generators(
   DCM_SP #( .CLKFX_MULTIPLY(4), .CLKFX_DIVIDE(1),
 	    .CLKIN_PERIOD(period48), .CLKIN_DIVIDE_BY_2("FALSE"),
 	    .CLK_FEEDBACK("1X"), .CLKDV_DIVIDE(2),
-	    .PHASE_SHIFT(0), .CLKOUT_PHASE_SHIFT("NONE"),
+	    .PHASE_SHIFT(120), .CLKOUT_PHASE_SHIFT("FIXED"),
 	    .DUTY_CYCLE_CORRECTION("TRUE"), .STARTUP_WAIT("FALSE"),
 	    .DESKEW_ADJUST("SYSTEM_SYNCHRONOUS"), .FACTORY_JF(16'hc080),
 	    .DFS_FREQUENCY_MODE("LOW"), .DLL_FREQUENCY_MODE("LOW") )
    dcmif (.CLKIN(ifclk_buf), .CLKFB(fbclk2_buf), .RST(clkgen_rst),
-	  .CLK0(fbclk2), .CLK180(clkif180), .LOCKED(clkif_locked),
+	  .CLK0(fbclk2), .CLK90(clkif180), .LOCKED(clkif_locked),
 	  .PSEN(1'b0), .PSCLK(1'b0), .PSINCDEC(1'b0), .DSSEN(1'b0));
 
   BUFG fb2_buf(.I(fbclk2), .O(fbclk2_buf));
 
-  BUFG ifout_buf(.I(clkif180), .O(ifclk_out));
+  BUFG ifout_buf(.I(fbclk2), .O(ifclk_out));
 
   DCM_SP #( .CLKFX_MULTIPLY(25), .CLKFX_DIVIDE(12), // 48*25/12 = 100
 	    .CLKIN_PERIOD(period48), .CLKIN_DIVIDE_BY_2("FALSE"),

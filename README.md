@@ -10,9 +10,20 @@ be used with open source software.
 Building
 --------
 
-To build this, the Xilinx ISE is needed.
+To build this, the Xilinx ISE 14.7 is needed.
 
 First, edit the Makefile to adjust the path to the Xilinx ISE
 binary directory.  Then, run make and the bitstreams will be
 generated into the bin directory.
 
+
+Windows
+-------
+
+To build this, the Xilinx ISE 14.7 is needed.
+
+First, edit the Makefile to adjust the path to the Xilinx ISE
+binary directory.  Then, run make and the bitstreams will be
+generated into the bin directory.
+
+make -f Makefile.win

@@ -8,6 +8,7 @@ module fast_clock_domain(
     input acq_enable,
     input [7:0] clock_divisor,
     input [15:0] channel_enable,
+    output divided_clock,
     output stalled
 );
 
@@ -89,5 +90,6 @@ module fast_clock_domain(
    assign sample_data_avail = CHANNEL[0].valid_q && !stalled && !overflow;
 
    assign stalled = stalled_q;
+   assign divided_clock = sample_tick;
 
 endmodule // fast_clock_domain
