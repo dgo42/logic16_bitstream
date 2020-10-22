@@ -38,20 +38,20 @@ module normal_clock_domain(
       );
 
 
-   localparam VERSION = 8'h10;
+   localparam VERSION = 8'h13;
 
    // Registers
 
-   localparam REG_VERSION = 'h00;
-   localparam REG_STATUS_CONTROL = 'h01;
-   localparam REG_CHANNEL_SELECT_LOW = 'h02;
-   localparam REG_CHANNEL_SELECT_HIGH = 'h03;
-   localparam REG_SAMPLE_RATE_DIVISOR = 'h04;
+   localparam REG_VERSION = 'h07;
+   localparam REG_STATUS_CONTROL = 'h0F;
+   localparam REG_CHANNEL_SELECT_LOW = 'h01;
+   localparam REG_CHANNEL_SELECT_HIGH = 'h06;
+   localparam REG_SAMPLE_RATE_DIVISOR = 'h0B;
    localparam REG_LED_BRIGHTNESS = 'h05;
-   localparam REG_PRIMER_DATA1 = 'h06;
-   localparam REG_PRIMER_CONTROL = 'h07;
-   localparam REG_MODE = 'h0a;
-   localparam REG_PRIMER_DATA2 = 'h0c;
+   localparam REG_PRIMER_DATA1 = 'h0E;
+   localparam REG_PRIMER_CONTROL = 'h02;
+   localparam REG_MODE = 'h04;
+   localparam REG_PRIMER_DATA2 = 'h03;
 
    reg [7:0]  led_brightness_d, led_brightness_q;
    reg        sc_unknown_2_d, sc_unknown_2_q;
@@ -76,12 +76,12 @@ module normal_clock_domain(
       case (reg_num)
 	REG_VERSION: reg_data_read = VERSION;
 	REG_STATUS_CONTROL: begin
-	   reg_data_read = {1'b0, sc_unknown_2_q, fifo_overflow,
-			    1'b0, clklock, 1'b0, acq_reset_q, acq_enable_q };
+	   reg_data_read = {1'b0, 1'b0, acq_enable_q, clklock, 
+			    acq_reset_q, sc_unknown_2_q, 1'b0, fifo_overflow};
 	   if (reg_write) begin
-	      sc_unknown_2_d = reg_data_write[6];
-	      acq_enable_d = reg_data_write[0];
-	      acq_reset_d = reg_data_write[1];
+	      sc_unknown_2_d = reg_data_write[2];
+	      acq_enable_d = reg_data_write[5];
+	      acq_reset_d = reg_data_write[3];
 	   end
 	end
 	REG_CHANNEL_SELECT_LOW: begin
@@ -103,7 +103,7 @@ module normal_clock_domain(
 	REG_MODE: begin
 	   reg_data_read = { 7'b0000000, clock_select_q };
 	   if (reg_write) begin
-	      clock_select_d = reg_data_write[0];
+	      clock_select_d = reg_data_write[2];
 	   end
 	end
 	default: reg_data_read = 8'b00000000;
